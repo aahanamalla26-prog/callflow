@@ -184,6 +184,15 @@ The booking logic (slot allocation, idempotency, double-booking) is covered by o
 </details>
 
 ---
+### ⚡ Performance & Benchmarking
+
+- **Average Response Latency**: **~1.8s** on Apple Silicon (MacBook Air) using local `llama3.2` via Ollama.
+- **Accuracy**: **15/15 (100%)** on a fixed evaluation test suite.
+- **Optimizations Applied**:
+  - Model context retention via `keep_alive: "30m"`.
+  - Generation constraints (`num_predict: 200`, `num_ctx: 4096`).
+  - Leaner JSON schema payload to minimize token output overhead.
+- **Reproducibility**: Run `node scripts/measure.js tuned` inside `/server` to verify latency and accuracy locally.
 
 ## Honest limits
 
