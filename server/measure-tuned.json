@@ -1,0 +1,12 @@
+{
+  "label": "tuned",
+  "model": "llama3.2",
+  "samples": 23,
+  "coldStartMs": 14580,
+  "avgMs": 1832,
+  "medianMs": 1842,
+  "p95Ms": 2109,
+  "avgInputTokens": 894,
+  "avgOutputTokens": 50,
+  "accuracy": "15/15"
+}

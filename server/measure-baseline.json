@@ -1,0 +1,12 @@
+{
+  "label": "baseline",
+  "model": "llama3.2",
+  "samples": 23,
+  "coldStartMs": 4287,
+  "avgMs": 4458,
+  "medianMs": 4364,
+  "p95Ms": 5433,
+  "avgInputTokens": 957,
+  "avgOutputTokens": 116,
+  "accuracy": "15/15"
+}

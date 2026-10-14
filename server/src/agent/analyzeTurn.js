@@ -280,24 +280,11 @@ export async function analyzeTurn({ text: callerText, history = [], known = {} }
     const ollamaModel = process.env.OLLAMA_MODEL || 'llama3.2';
     const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
     const doFetch = options.fetchImpl || fetch;
-    const jsonInstruction = `\nYou must respond with a raw JSON object only (no markdown formatting, no code blocks) matching this exact structure:
-{
-  "intent": "book_appointment | general_question | escalate_to_human | unknown",
-  "confidence": 0.9,
-  "next_action": "reply | ask_followup | create_lead | book_appointment | escalate | end",
-  "qualification_score": 50,
-  "escalation_reason": "",
-  "entities": {
-    "name": "",
-    "phone": "",
-    "email": "",
-    "serviceType": "",
-    "vehicle": "",
-    "preferredDate": "",
-    "notes": ""
-  },
-  "reply": "Your spoken reply here."
-}`;
+
+    const jsonInstruction = `
+Respond with raw JSON only, in exactly this shape:
+{"intent":"book_appointment","confidence":0.9,"next_action":"ask_followup","qualification_score":50,"entities":{},"reply":"..."}
+Rules for "entities": {"name":"","serviceType":"","preferredDate":""} include a key only if the caller has actually given that detail. Leave out everything unknown. Never write empty strings.`;
 
     const ollamaMessages = [
       { role: 'system', content: systemPrompt + jsonInstruction },
@@ -316,7 +303,8 @@ export async function analyzeTurn({ text: callerText, history = [], known = {} }
           messages: ollamaMessages,
           format: 'json',
           stream: false,
-          options: { temperature: 0.2 }, // steadier extraction than the default
+          keep_alive: '30m',
+          options: { temperature: 0.2, num_predict: 200, num_ctx: 4096 },
         }),
         signal: AbortSignal.timeout(90_000), // the first call after startup can be slow while the model loads
       });
