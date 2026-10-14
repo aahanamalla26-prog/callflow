@@ -188,7 +188,7 @@ The booking logic (slot allocation, idempotency, double-booking) is covered by o
 ## Honest limits
 
 - **No login yet.** Anyone who can reach port 4000 can read customer details and replay jobs. Keep it on a trusted network for now.
-- **Reply speed.** A local `llama3.2` takes several seconds per reply. That's fine for text and too slow for live voice.
+- **Reply speed.** about 2 s per reply locally, still too slow for natural phone conversation.
 - **Confirmations are simulated.** No real SMS goes out yet.
 
 ## Next
